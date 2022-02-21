@@ -154,12 +154,8 @@
             "header": "Progress",
             "name": "bar",
             "names": [
-                "mature",
-                "young",
-                "learning card",
-                "unseen",
-                "buried",
-                "suspended"
+                "seen",
+                "unseen"
             ],
             "overlay": null,
             "present": true,
