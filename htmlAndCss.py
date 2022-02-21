@@ -23,7 +23,7 @@ start_header = """
 
 deck_header = f"""
     <th colspan = 5 align = left>
-      {_("Deck")}
+      {"Deck"}
     </th>"""
 
 
@@ -31,7 +31,7 @@ def column_header(heading, colpos):
     return f"""
     <th class = "count ui-draggable ui-draggable-handle ui-droppable" colpos = "{colpos}">
       <a onclick = "return pycmd('optsColumn:{colpos}');">
-        {_(heading)}
+        {heading}
       </a>
     </th>"""
 

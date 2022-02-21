@@ -30,13 +30,13 @@ def columnHandler(self, arg):
 
 def columnOptions(self, colpos):
     m = QMenu(self.mw)
-    a = m.addAction(_("Delete"))
+    a = m.addAction("Delete")
     a.triggered.connect(lambda: deleteColumn(self, colpos))
     m.exec_(QCursor.pos())
 
 
 def deleteColumn(self, colpos):
-    if not askUser(_("""Are you sure you wish to delete this column ?""")):
+    if not askUser("""Are you sure you wish to delete this column ?"""):
         return
     colpos = int(colpos)
     print("They are sure.")

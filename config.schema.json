@@ -112,10 +112,18 @@
                 "bar",
                 "flags",
                 "all flags",
-                "review later",
                 "repetition seen today",
                 "repetition today",
-                "cards seen today"
+                "cards seen today",
+                "today all",
+                "due week",
+                "due week avg",
+                "due month",
+                "due month avg",
+                "due year",
+                "due year avg",
+                "days left",
+                "expected daily"
               ]
             }
           },
@@ -166,10 +174,18 @@
               "flag 3",
               "flag 4",
               "all flags",
-              "review later",
               "repetition seen today",
               "repetition today",
-              "cards seen today"
+              "cards seen today",
+              "today all",
+              "due week",
+              "due week avg",
+              "due month",
+              "due month avg",
+              "due year",
+              "due year avg",
+              "days left",
+              "expected daily"
             ]
           },
           "color": {
