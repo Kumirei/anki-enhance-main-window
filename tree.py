@@ -49,7 +49,7 @@ def getAdditionalInfo():
             totalCardsLeft += childCardsLeft
             maxChildDaysLeft = max(maxChildDaysLeft, childDaysLeft)
             totalDue += childDue
-        daysLeft = 0 if maxNew == 0 else ceil(totalCardsLeft / maxNew)
+        daysLeft = 0 if maxNew == 0 or maxNew > 9000 else ceil(totalCardsLeft / maxNew)
         daysLeft = max(daysLeft, maxChildDaysLeft)
         decksDaysLeft[node.deck_id] = daysLeft
         totalDue = totalDue if totalDue < maxRev else maxRev

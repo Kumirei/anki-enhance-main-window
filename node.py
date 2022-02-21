@@ -363,7 +363,8 @@ class DeckNode:
             conf = getFromName(name) or {"name": name}
             color = getColor(conf)
             number = self.count['absolute'][kind][False].get(name, 0)
-            overlay = f"{number}: {getOverlay(conf)}"
+            percent = round(number/total*100)
+            overlay = f"{percent}% {name}"
             width = number*100/total
             content += bar(name, width, cumulative, color, overlay)
             cumulative += width

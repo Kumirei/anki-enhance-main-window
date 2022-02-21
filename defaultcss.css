@@ -52,6 +52,8 @@ tr td[colpos="12"] {
 
 .tooltip:hover .tooltiptext {
     visibility: hidden;
+    padding: 0.5em;
+    text-transform: capitalize;
 }
 
 .number_cell:not(.tooltip) .tooltip:hover .tooltiptext {
