@@ -48,7 +48,8 @@ defaultHeader = {**{
     "due year": "Year",
     "due year avg": "Y",
     "days left": "Days Left",
-    "expected daily": "Expected"
+    "expected daily": "Expected",
+    "seen": "Seen"
 }, **{f"flag {i}": "Flag"+" {i}" for i in range(5)}}
 
 
@@ -107,7 +108,8 @@ defaultOverlay = {**{
     "due year": "Total cards due this year",
     "due year avg": "Average daily cards due this year",
     "days left": "Number of days left until you finish the deck",
-    "expected daily": "Expected daily reviews"
+    "expected daily": "Expected daily reviews",
+    "seen": "Cards reviewed at least once, not suspended"
 }, **{f"flag {i}": f"Number of cards with flag {i}" for i in range(5)}}
 
 

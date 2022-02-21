@@ -87,6 +87,7 @@ def computeValues():
         ("due year avg", f"queue = {QUEUE_REV} and due > {today} and due <= {today+365}", "", ""),
         ("expected daily", f"queue = {QUEUE_REV} and due >= {today}", f"100000/(due-{today}+1)", ""),
         ("days left", "", "", ""),
+        ("seen", f"queue in ({QUEUE_REV}, {QUEUE_USER_BURIED}, {QUEUE_SCHED_BURIED})", "", "")
     ])
 
     for name, condition, addend, table in queriesCardCount:
