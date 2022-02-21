@@ -42,11 +42,11 @@ th.count > a {
     color: black;
 }
 
-tr th[colpos="11"] {
+tr th[colpos="12"] {
     text-align: center;
 }
 
-tr td[colpos="11"] {
+tr td[colpos="12"] {
     padding-left: 1em;
 }
 

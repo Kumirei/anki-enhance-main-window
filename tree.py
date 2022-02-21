@@ -9,7 +9,7 @@ from .debug import debug
 # the number of card of this deck in this column
 values = dict()
 
-def getDaysLeft():
+def getAdditionalInfo():
     # Find all configs
     configs = mw.col.decks.all_config()
     confs = {}
@@ -23,30 +23,43 @@ def getDaysLeft():
     for did, value in results:
         cardsLeft[did] = value
 
-    # Find days left
+    # Find out how many cards are due in each deck
+    due = {}
+    query = f"select did, count(*) from cards where queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due <= {mw.col.sched.today} group by did"
+    results = mw.col.db.all(query)
+    for did, value in results:
+        due[did] = value
+
+    # Find days left and reviews
     decksDaysLeft = {}
-    def get_days_left(node, maxNew):
+    decksDue = {}
+    def recursiveFunction(node, maxNew, maxRev):
         deck = mw.col.decks.get(node.deck_id)
         conf = confs[deck["conf"]]
         deckMaxNew = conf["new"]["perDay"]
+        deckMaxRev = conf["rev"]["perDay"]
         maxNew = min(maxNew, deckMaxNew)
+        maxRev = min(maxRev, deckMaxRev)
         
         totalCardsLeft = 0 if not node.deck_id in cardsLeft else cardsLeft[node.deck_id]
         maxChildDaysLeft = 0
+        totalDue = 0 if not node.deck_id in due else due[node.deck_id]
         for child in node.children:
-            childCardsLeft, childDaysLeft = get_days_left(child, maxNew)
+            childCardsLeft, childDaysLeft, childDue = recursiveFunction(child, maxNew, maxRev)
             totalCardsLeft += childCardsLeft
             maxChildDaysLeft = max(maxChildDaysLeft, childDaysLeft)
-
+            totalDue += childDue
         daysLeft = 0 if maxNew == 0 else ceil(totalCardsLeft / maxNew)
         daysLeft = max(daysLeft, maxChildDaysLeft)
         decksDaysLeft[node.deck_id] = daysLeft
-        return totalCardsLeft, daysLeft
+        totalDue = totalDue if totalDue < maxRev else maxRev
+        decksDue[node.deck_id] = totalDue
+        return totalCardsLeft, daysLeft, totalDue
     
     root = mw.col.decks.deck_tree().children[0]
-    get_days_left(root, 99999999999)
+    recursiveFunction(root, 99999999999, 99999999999)
     
-    return decksDaysLeft
+    return decksDaysLeft, decksDue
 
 
 def computeValues():
@@ -78,7 +91,7 @@ def computeValues():
         ("undue", f"queue = {QUEUE_REV} and due >  {today}", "", ""),
         ("mature", f"queue = {QUEUE_REV} and ivl >= 21", "", ""),
         ("young", f"queue = {QUEUE_REV} and 0<ivl and ivl <21", "", ""),
-        ("today all", f"queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due <= {tomorrow}", "", ""),
+        ("today all", f"queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due <= {today}", "", ""),
         ("due week", f"queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due > {today} and due <= {today+7}", "", ""),
         ("due month", f"queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due > {today} and due <= {today+30}", "", ""),
         ("due year", f"queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due > {today} and due <= {today+365}", "", ""),
@@ -87,8 +100,11 @@ def computeValues():
         ("due year avg", f"queue = {QUEUE_REV} and due > {today} and due <= {today+365}", "", ""),
         ("expected daily", f"queue = {QUEUE_REV} and due >= {today}", f"100000/(due-{today}+1)", ""),
         ("days left", "", "", ""),
-        ("seen", f"queue in ({QUEUE_REV}, {QUEUE_USER_BURIED}, {QUEUE_SCHED_BURIED})", "", "")
+        ("seen", f"queue in ({QUEUE_REV}, {QUEUE_USER_BURIED}, {QUEUE_SCHED_BURIED})", "", ""),
+        ("due limited", "", "", ""),
     ])
+
+    decksDaysLeft, decksDue = getAdditionalInfo()
 
     for name, condition, addend, table in queriesCardCount:
         if addend:
@@ -100,7 +116,10 @@ def computeValues():
         if not table:
             table = "cards"
         if name == "days left":
-            values[name] = getDaysLeft()
+            values[name] = decksDaysLeft
+            continue
+        if name == "due limited":
+            values[name] = decksDue
             continue
         query = f"select did, {element} from {table} {condition} group by did"
         results = mw.col.db.all(query)

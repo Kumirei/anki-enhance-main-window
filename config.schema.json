@@ -124,7 +124,8 @@
                 "due year avg",
                 "days left",
                 "expected daily",
-                "seen"
+                "seen",
+                "due limited"
               ]
             }
           },
@@ -187,7 +188,8 @@
               "due year avg",
               "days left",
               "expected daily",
-              "seen"
+              "seen",
+              "due limited"
             ]
           },
           "color": {
