@@ -127,17 +127,4 @@ def getOverlay(conf):
 def getColor(conf):
     if "color" in conf and conf.get('color') is not None:
         return conf.get('color')
-    name = conf.get('name', "")
-    for word, color in [
-            ("learning", colRelearn),
-            ("unseen", colUnseen),
-            ("new", colLearn),
-            ("suspend", colSusp),
-            ("young", colYoung),
-            ("mature", colMature),
-            ("buried", colSusp),
-            ("repeated", colCum)
-    ]:
-        if word in name:
-            return color
     return getUserOption("default column color", "grey")

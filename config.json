@@ -129,6 +129,17 @@
         },
         {
             "absolute": true,
+            "color": "#333",
+            "description": "Seen cards",
+            "header": "Seen",
+            "name": "seen",
+            "overlay": null,
+            "percent": false,
+            "present": false,
+            "subdeck": true
+        },
+        {
+            "absolute": true,
             "color": "transparent",
             "description": "Unseen cards",
             "header": "Unseen",
@@ -170,17 +181,6 @@
             "overlay": null,
             "percent": false,
             "present": true,
-            "subdeck": true
-        },
-        {
-            "absolute": true,
-            "color": "#333",
-            "description": "Number of times you saw a question from this deck",
-            "header": "none",
-            "name": "learning card",
-            "overlay": null,
-            "percent": false,
-            "present": false,
             "subdeck": true
         }
     ]

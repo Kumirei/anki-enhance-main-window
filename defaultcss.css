@@ -42,11 +42,19 @@ th.count > a {
     color: black;
 }
 
-tr th[colpos="12"] {
+body.nightMode .number_cell font {
+    color: #ccc !important;
+}
+
+body.nightMode th.count > a {
+    color: white !important;
+}
+
+tr th[colpos="13"] {
     text-align: center;
 }
 
-tr td[colpos="12"] {
+tr td[colpos="13"] {
     padding-left: 1em;
 }
 
