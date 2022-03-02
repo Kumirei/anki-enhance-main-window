@@ -24,8 +24,9 @@ def getAdditionalInfo():
         cardsLeft[did] = value
 
     # Find out how many cards are due in each deck
+    cutoff = intTime() + mw.col.get_config('collapseTime')
     due = {}
-    query = f"select did, count(*) from cards where (queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due < {mw.col.sched.today}) or queue = {QUEUE_LRN} group by did"
+    query = f"select did, count(*) from cards where (queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due < {mw.col.sched.today}) or (queue = {QUEUE_LRN} and due <= {cutoff}) group by did"
     results = mw.col.db.all(query)
     for did, value in results:
         due[did] = value
