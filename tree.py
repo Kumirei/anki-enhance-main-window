@@ -25,7 +25,7 @@ def getAdditionalInfo():
 
     # Find out how many cards are due in each deck
     due = {}
-    query = f"select did, count(*) from cards where queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due <= {mw.col.sched.today} group by did"
+    query = f"select did, count(*) from cards where (queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due < {mw.col.sched.today}) or queue = {QUEUE_LRN} group by did"
     results = mw.col.db.all(query)
     for did, value in results:
         due[did] = value
@@ -91,7 +91,7 @@ def computeValues():
         ("undue", f"queue = {QUEUE_REV} and due >  {today}", "", ""),
         ("mature", f"queue = {QUEUE_REV} and ivl >= 21", "", ""),
         ("young", f"queue = {QUEUE_REV} and 0<ivl and ivl <21", "", ""),
-        ("today all", f"queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due <= {today}", "", ""),
+        ("today all", f"queue in ({QUEUE_REV}, {QUEUE_LRN}, {QUEUE_DAY_LRN}) and due <= {today}", "", ""),
         ("due week", f"queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due > {today} and due <= {today+7}", "", ""),
         ("due month", f"queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due > {today} and due <= {today+30}", "", ""),
         ("due year", f"queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due > {today} and due <= {today+365}", "", ""),
