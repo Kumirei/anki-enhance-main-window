@@ -129,17 +129,6 @@
         },
         {
             "absolute": true,
-            "color": "#333",
-            "description": "Seen cards",
-            "header": "Seen",
-            "name": "seen",
-            "overlay": null,
-            "percent": false,
-            "present": false,
-            "subdeck": true
-        },
-        {
-            "absolute": true,
             "color": "transparent",
             "description": "Unseen cards",
             "header": "Unseen",
@@ -169,6 +158,17 @@
                 "unseen"
             ],
             "overlay": null,
+            "present": true,
+            "subdeck": true
+        },
+        {
+            "absolute": true,
+            "color": "#333",
+            "description": "Seen cards",
+            "header": "Seen",
+            "name": "seen",
+            "overlay": null,
+            "percent": false,
             "present": true,
             "subdeck": true
         },
