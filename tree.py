@@ -26,7 +26,7 @@ def getAdditionalInfo():
     # Find out how many cards are due in each deck
     cutoff = intTime() + mw.col.get_config('collapseTime')
     due = {}
-    query = f"select did, count(*) from cards where (queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due < {mw.col.sched.today}) or (queue = {QUEUE_LRN} and due <= {cutoff}) group by did"
+    query = f"select did, count(*) from cards where (queue in ({QUEUE_REV}, {QUEUE_DAY_LRN}) and due <= {mw.col.sched.today}) or (queue = {QUEUE_LRN} and due <= {cutoff}) group by did"
     results = mw.col.db.all(query)
     for did, value in results:
         due[did] = value
@@ -101,7 +101,7 @@ def computeValues():
         ("due year avg", f"queue = {QUEUE_REV} and due > {today} and due <= {today+365}", "", ""),
         ("expected daily", f"queue = {QUEUE_REV} and due >= {today}", f"100000/(due-{today}+1)", ""),
         ("days left", "", "", ""),
-        ("seen", f"queue in ({QUEUE_REV}, {QUEUE_USER_BURIED}, {QUEUE_SCHED_BURIED}, {QUEUE_LRN}, {QUEUE_DAY_LRN})", "", ""),
+        ("seen", f"queue <> {QUEUE_SUSPENDED} and type <> {QUEUE_NEW_CRAM}", "", ""),
         ("due limited", "", "", ""),
     ])
 
