@@ -85,7 +85,7 @@ def computeValues():
         ("reviewed today", f"queue = {QUEUE_REV} and due>0 and due-ivl = {today}", "", ""),
         ("repeated today", f"revlog.id>{yesterdayLimit}", "", "revlog inner join cards on revlog.cid = cards.id"),
         ("repeated", "", "", f"revlog inner join cards on revlog.cid = cards.id"),
-        ("unseen", f"queue = {QUEUE_NEW_CRAM}", "", ""),
+        ("unseen", f"queue = {QUEUE_NEW_CRAM} and type <> {QUEUE_SUSPENDED}", "", ""),
         ("buried", f"queue = {QUEUE_USER_BURIED} or queue = {QUEUE_SCHED_BURIED}", "", ""),
         ("suspended", f"queue = {QUEUE_SUSPENDED}", "", ""),
         ("cards", "", "", ""),
